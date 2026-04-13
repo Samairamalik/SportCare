@@ -1,11 +1,11 @@
 -- Sample Athletes
 INSERT INTO athletes (id, first_name, last_name, sport, age, email, phone, status, medical_notes) VALUES
-('ATH001', 'John', 'Miller', 'Basketball', 24, 'john.miller@email.com', '555-0101', 'active', 'No known allergies'),
-('ATH002', 'Sarah', 'Smith', 'Soccer', 22, 'sarah.smith@email.com', '555-0102', 'active', 'Asthma - carries inhaler'),
-('ATH003', 'Mike', 'Johnson', 'Tennis', 26, 'mike.johnson@email.com', '555-0103', 'injured', 'Previous knee surgery 2024'),
-('ATH004', 'Emma', 'Wilson', 'Swimming', 21, 'emma.wilson@email.com', '555-0104', 'active', NULL),
-('ATH005', 'David', 'Lee', 'Track', 25, 'david.lee@email.com', '555-0105', 'injured', NULL),
-('ATH006', 'Lisa', 'Chen', 'Gymnastics', 20, 'lisa.chen@email.com', '555-0106', 'active', NULL);
+('ATH001', 'Arjun', 'Mehta', 'Cricket', 24, 'arjun.mehta@email.com', '555-0101', 'active', 'No known allergies'),
+('ATH002', 'Priya', 'Sharma', 'Tennis', 22, 'priya.sharma@email.com', '555-0102', 'active', 'Asthma - carries inhaler'),
+('ATH003', 'Rohan', 'Das', 'Badminton', 26, 'rohan.das@email.com', '555-0103', 'injured', 'Previous knee surgery 2024'),
+('ATH004', 'Ishika', 'Goel', 'Swimming', 21, 'ishika.goel@email.com', '555-0104', 'active', NULL),
+('ATH005', 'Kabir', 'Singh', 'Kabaddi', 25, 'kabir.singh@email.com', '555-0105', 'injured', NULL),
+('ATH006', 'Ananya', 'Iyer', 'Gymnastics', 20, 'ananya.iyer@email.com', '555-0106', 'active', NULL);
 
 -- Sample Sessions
 INSERT INTO sessions (id, name, athlete_id, session_type, session_date, session_time, duration, status, notes) VALUES

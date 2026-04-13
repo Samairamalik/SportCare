@@ -1,8 +1,25 @@
 package com.sportcare.controller;
 
-import com.sportcare.repository.*;
-import org.springframework.web.bind.annotation.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.sportcare.repository.AthleteRepository;
+import com.sportcare.repository.InjuryRepository;
+import com.sportcare.repository.RecoveryRepository;
+import com.sportcare.repository.SessionRepository;
+import com.sportcare.repository.TrainingLoadRepository;
 
 @RestController
 @RequestMapping("/api")
@@ -55,9 +72,14 @@ public class SportController {
     @GetMapping("/injuries") public List<Map<String, Object>> getInjuries() { return injuries.findAll(); }
     @PostMapping("/injuries") public Map<String, Object> addInjury(@RequestBody Map<String, Object> i) {
         if (!i.containsKey("id")) i.put("id", "INJ" + System.currentTimeMillis() % 1000000);
-        if (!i.containsKey("status")) i.put("status", "active");
+        if (!i.containsKey("status")) i.put("status", "out");
         injuries.save(i);
         return injuries.findAll().stream().filter(m -> m.get("id").equals(i.get("id"))).findFirst().orElse(i);
+    }
+    @PutMapping("/injuries/{id}") public Map<String, Object> updateInjury(@PathVariable String id, @RequestBody Map<String, Object> i) {
+        if (!i.containsKey("status")) i.put("status", "out");
+        injuries.update(id, i);
+        return injuries.findAll().stream().filter(m -> m.get("id").equals(id)).findFirst().orElse(i);
     }
     @DeleteMapping("/injuries/{id}") public void deleteInjury(@PathVariable String id) { injuries.delete(id); }
 

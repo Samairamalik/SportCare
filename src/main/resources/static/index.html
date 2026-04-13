@@ -352,6 +352,7 @@
         .badge-green { background: rgba(16, 185, 129, 0.1); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.2); }
         .badge-red { background: rgba(244, 63, 94, 0.1); color: #fb7185; border: 1px solid rgba(244, 63, 94, 0.2); }
         .badge-yellow { background: rgba(245, 158, 11, 0.1); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.2); }
+        .badge-gray { background: rgba(148, 163, 184, 0.12); color: #cbd5e1; border: 1px solid rgba(148, 163, 184, 0.22); }
 
         /* Progress */
         .progress-bar {
@@ -1744,7 +1745,7 @@
                     </td>
                     <td>${a.sport}</td>
                     <td>${a.age || '-'}</td>
-                    <td><span class="badge badge-${a.status === 'active' ? 'green' : a.status === 'injured' ? 'yellow' : 'gray'}">${capitalize(a.status)}</span></td>
+                    <td><span class="badge badge-${getStatusBadge(a.status)}">${capitalize(a.status)}</span></td>
                     <td><span class="badge badge-${a.load_status === 'optimal' ? 'blue' : a.load_status === 'moderate' ? 'yellow' : a.load_status === 'high_risk' ? 'red' : 'gray'}">${formatLoadStatus(a.load_status)}</span></td>
                     <td>
                         <div class="action-buttons">
@@ -2169,12 +2170,21 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
                 });
+
+                if (!res.ok) {
+                    throw new Error(`Failed to create injury: ${res.status}`);
+                }
+
                 const injury = await res.json();
-                injuries.push(injury);
+                injuries.unshift(injury);
                 renderInjuriesTable();
+
+                // Keep other sections in sync without blocking immediate UI feedback.
+                fetchAllData().catch(error => console.error('Refresh after injury create failed:', error));
                 showNotification('Injury reported successfully', 'success');
                 return true;
             } catch (error) {
+                console.error('Error creating injury:', error);
                 showNotification('Failed to report injury', 'error');
                 return false;
             }
@@ -2200,8 +2210,8 @@
                 return;
             }
 
-            await addInjury(data);
-            closeModal('injuryModal');
+            const success = await addInjury(data);
+            if (success) closeModal('injuryModal');
         }
 
         async function editInjury(id) {
@@ -2406,6 +2416,7 @@
                 'scheduled': 'gray',
                 'active': 'green',
                 'injured': 'yellow',
+                'out': 'red',
                 'optimal': 'blue',
                 'moderate': 'yellow',
                 'high_risk': 'red'

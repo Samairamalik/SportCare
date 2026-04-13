@@ -1,7 +1,10 @@
 package com.sportcare.repository;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 import org.h2.api.Trigger;
-import java.sql.*;
 
 public class RecoveryTrigger implements Trigger {
     @Override
@@ -14,8 +17,10 @@ public class RecoveryTrigger implements Trigger {
         String athleteId = (String) newRow[1];
 
         if (wellness != null && wellness >= 8) {
-            try (PreparedStatement ps = conn.prepareStatement("UPDATE athletes SET status = 'active' WHERE id = ?")) {
+            try (PreparedStatement ps = conn.prepareStatement(
+                    "UPDATE athletes SET status = 'active' WHERE id = ? AND NOT EXISTS (SELECT 1 FROM injuries WHERE athlete_id = ?)")) {
                 ps.setString(1, athleteId);
+                ps.setString(2, athleteId);
                 ps.executeUpdate();
             }
         }

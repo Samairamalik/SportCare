@@ -1,0 +1,2482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sports Training & Injury Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light: #3b82f6;
+            --primary-dark: #1d4ed8;
+            --secondary: #64748b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg-primary: #f8fafc;
+            --bg-secondary: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 4px 6px rgba(0, 0, 0, 0.07);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: 260px;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border);
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .logo-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .nav-section {
+            margin-bottom: 24px;
+        }
+
+        .nav-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s;
+            margin-bottom: 4px;
+            cursor: pointer;
+        }
+
+        .nav-item:hover {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            background: #eff6ff;
+            color: var(--primary);
+        }
+
+        .nav-item i {
+            width: 18px;
+            font-size: 16px;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 260px;
+            padding: 32px 40px;
+        }
+
+        .header {
+            margin-bottom: 32px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .stat-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .stat-card-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .stat-card-icon.blue { background: #eff6ff; color: var(--primary); }
+        .stat-card-icon.green { background: #ecfdf5; color: var(--success); }
+        .stat-card-icon.orange { background: #fffbeb; color: var(--warning); }
+        .stat-card-icon.red { background: #fef2f2; color: var(--danger); }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        /* Content Sections */
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .card-body {
+            padding: 24px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border);
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 13px;
+        }
+
+        /* Tables */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 14px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            background: var(--bg-primary);
+        }
+
+        td {
+            font-size: 14px;
+        }
+
+        tr:hover {
+            background: var(--bg-primary);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Status Badges */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .badge-green {
+            background: #ecfdf5;
+            color: #059669;
+        }
+
+        .badge-yellow {
+            background: #fffbeb;
+            color: #d97706;
+        }
+
+        .badge-red {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        .badge-blue {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .badge-gray {
+            background: #f1f5f9;
+            color: #475569;
+        }
+
+        /* Forms */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        select.form-control {
+            cursor: pointer;
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Progress Bars */
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--bg-primary);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s;
+        }
+
+        .progress-fill.green { background: var(--success); }
+        .progress-fill.yellow { background: var(--warning); }
+        .progress-fill.red { background: var(--danger); }
+        .progress-fill.blue { background: var(--primary); }
+
+        /* Avatar */
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-light), var(--primary-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .athlete-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .athlete-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .athlete-name {
+            font-weight: 500;
+        }
+
+        .athlete-sport {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .btn-icon:hover {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            border: none;
+            background: var(--bg-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: var(--text-secondary);
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            padding: 20px 24px;
+            border-top: 1px solid var(--border);
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0;
+        }
+
+        .tab {
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+            transition: all 0.2s;
+        }
+
+        .tab:hover {
+            color: var(--text-primary);
+        }
+
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            animation: fadeIn 0.3s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-heartbeat"></i>
+            </div>
+            <span class="logo-text">SportCare</span>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-label">Main</div>
+            <a class="nav-item active" data-section="dashboard">
+                <i class="fas fa-th-large"></i>
+                <span>Dashboard</span>
+            </a>
+            <a class="nav-item" data-section="athletes">
+                <i class="fas fa-users"></i>
+                <span>Athletes</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-label">Training</div>
+            <a class="nav-item" data-section="sessions">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Sessions</span>
+            </a>
+            <a class="nav-item" data-section="loads">
+                <i class="fas fa-chart-line"></i>
+                <span>Training Loads</span>
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-label">Health</div>
+            <a class="nav-item" data-section="injuries">
+                <i class="fas fa-band-aid"></i>
+                <span>Injuries</span>
+            </a>
+            <a class="nav-item" data-section="recovery">
+                <i class="fas fa-spa"></i>
+                <span>Recovery</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="section active">
+            <div class="header">
+                <h1>Dashboard</h1>
+                <p>Overview of your sports training and injury management</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div>
+                            <div class="stat-value">24</div>
+                            <div class="stat-label">Total Athletes</div>
+                        </div>
+                        <div class="stat-card-icon blue">
+                            <i class="fas fa-users"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div>
+                            <div class="stat-value">8</div>
+                            <div class="stat-label">Active Sessions</div>
+                        </div>
+                        <div class="stat-card-icon green">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div>
+                            <div class="stat-value">5</div>
+                            <div class="stat-label">Current Injuries</div>
+                        </div>
+                        <div class="stat-card-icon red">
+                            <i class="fas fa-band-aid"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div>
+                            <div class="stat-value">89%</div>
+                            <div class="stat-label">Avg Recovery Rate</div>
+                        </div>
+                        <div class="stat-card-icon orange">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Recent Activity</h3>
+                    <button class="btn btn-secondary btn-sm">View All</button>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Athlete</th>
+                                <th>Activity</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="athlete-info">
+                                        <div class="avatar">JM</div>
+                                        <div class="athlete-details">
+                                            <span class="athlete-name">John Miller</span>
+                                            <span class="athlete-sport">Basketball</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Completed strength training session</td>
+                                <td>Today, 9:00 AM</td>
+                                <td><span class="badge badge-green">Completed</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="athlete-info">
+                                        <div class="avatar">SS</div>
+                                        <div class="athlete-details">
+                                            <span class="athlete-name">Sarah Smith</span>
+                                            <span class="athlete-sport">Soccer</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Started recovery protocol</td>
+                                <td>Today, 8:30 AM</td>
+                                <td><span class="badge badge-blue">In Progress</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="athlete-info">
+                                        <div class="avatar">MJ</div>
+                                        <div class="athlete-details">
+                                            <span class="athlete-name">Mike Johnson</span>
+                                            <span class="athlete-sport">Tennis</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Reported ankle discomfort</td>
+                                <td>Yesterday, 4:00 PM</td>
+                                <td><span class="badge badge-yellow">Under Review</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="athlete-info">
+                                        <div class="avatar">EW</div>
+                                        <div class="athlete-details">
+                                            <span class="athlete-name">Emma Wilson</span>
+                                            <span class="athlete-sport">Swimming</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Cleared for full training</td>
+                                <td>Yesterday, 2:00 PM</td>
+                                <td><span class="badge badge-green">Recovered</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Athletes Section -->
+        <section id="athletes" class="section">
+            <div class="header">
+                <h1>Athletes</h1>
+                <p>Manage athlete profiles and details</p>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">All Athletes</h3>
+                    <button class="btn btn-primary" onclick="openModal('athleteModal')">
+                        <i class="fas fa-plus"></i>
+                        Add Athlete
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Athlete</th>
+                                <th>Sport</th>
+                                <th>Age</th>
+                                <th>Status</th>
+                                <th>Load Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="athlete-info">
+                                        <div class="avatar">JM</div>
+                                        <div class="athlete-details">
+                                            <span class="athlete-name">John Miller</span>
+                                            <span class="athlete-sport">ID: ATH001</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Basketball</td>
+                                <td>24</td>
+                                <td><span class="badge badge-green">Active</span></td>
+                                <td><span class="badge badge-blue">Optimal</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-icon"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="athlete-info">
+                                        <div class="avatar">SS</div>
+                                        <div class="athlete-details">
+                                            <span class="athlete-name">Sarah Smith</span>
+                                            <span class="athlete-sport">ID: ATH002</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Soccer</td>
+                                <td>22</td>
+                                <td><span class="badge badge-green">Active</span></td>
+                                <td><span class="badge badge-yellow">Moderate</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-icon"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="athlete-info">
+                                        <div class="avatar">MJ</div>
+                                        <div class="athlete-details">
+                                            <span class="athlete-name">Mike Johnson</span>
+                                            <span class="athlete-sport">ID: ATH003</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Tennis</td>
+                                <td>26</td>
+                                <td><span class="badge badge-yellow">Injured</span></td>
+                                <td><span class="badge badge-red">High</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-icon"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="athlete-info">
+                                        <div class="avatar">EW</div>
+                                        <div class="athlete-details">
+                                            <span class="athlete-name">Emma Wilson</span>
+                                            <span class="athlete-sport">ID: ATH004</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Swimming</td>
+                                <td>21</td>
+                                <td><span class="badge badge-green">Active</span></td>
+                                <td><span class="badge badge-blue">Optimal</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-icon"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sessions Section -->
+        <section id="sessions" class="section">
+            <div class="header">
+                <h1>Training Sessions</h1>
+                <p>Schedule and track training sessions</p>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Session Schedule</h3>
+                    <button class="btn btn-primary" onclick="openModal('sessionModal')">
+                        <i class="fas fa-plus"></i>
+                        New Session
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Session</th>
+                                <th>Athlete</th>
+                                <th>Type</th>
+                                <th>Date & Time</th>
+                                <th>Duration</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Morning Strength</strong></td>
+                                <td>John Miller</td>
+                                <td>Strength</td>
+                                <td>Apr 13, 2026 - 9:00 AM</td>
+                                <td>60 min</td>
+                                <td><span class="badge badge-green">Completed</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-icon"><i class="fas fa-check"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Endurance Run</strong></td>
+                                <td>Sarah Smith</td>
+                                <td>Cardio</td>
+                                <td>Apr 13, 2026 - 10:30 AM</td>
+                                <td>45 min</td>
+                                <td><span class="badge badge-blue">In Progress</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-icon"><i class="fas fa-check"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Technique Drill</strong></td>
+                                <td>Mike Johnson</td>
+                                <td>Skills</td>
+                                <td>Apr 13, 2026 - 2:00 PM</td>
+                                <td>90 min</td>
+                                <td><span class="badge badge-gray">Scheduled</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-icon"><i class="fas fa-check"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Pool Training</strong></td>
+                                <td>Emma Wilson</td>
+                                <td>Swimming</td>
+                                <td>Apr 14, 2026 - 7:00 AM</td>
+                                <td>75 min</td>
+                                <td><span class="badge badge-gray">Scheduled</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-icon"><i class="fas fa-check"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Training Loads Section -->
+        <section id="loads" class="section">
+            <div class="header">
+                <h1>Training Loads</h1>
+                <p>Monitor and manage athlete workload</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div>
+                            <div class="stat-value">7.2</div>
+                            <div class="stat-label">Avg ACWR</div>
+                        </div>
+                        <div class="stat-card-icon blue">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div>
+                            <div class="stat-value">1,240</div>
+                            <div class="stat-label">Total Load (AU)</div>
+                        </div>
+                        <div class="stat-card-icon green">
+                            <i class="fas fa-dumbbell"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div>
+                            <div class="stat-value">85%</div>
+                            <div class="stat-label">Readiness Score</div>
+                        </div>
+                        <div class="stat-card-icon orange">
+                            <i class="fas fa-gauge"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Current Training Loads</h3>
+                    <button class="btn btn-primary" onclick="openModal('loadModal')">
+                        <i class="fas fa-plus"></i>
+                        Add Load Entry
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Athlete</th>
+                                <th>Microcycle</th>
+                                <th>ACWR</th>
+                                <th>Load (AU)</th>
+                                <th>Fatigue</th>
+                                <th>Readiness</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="athlete-info">
+                                        <div class="avatar">JM</div>
+                                        <span>John Miller</span>
+                                    </div>
+                                </td>
+                                <td>Week 2</td>
+                                <td>0.95</td>
+                                <td>3,200</td>
+                                <td>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill green" style="width: 65%"></div>
+                                    </div>
+                                </td>
+                                <td>92%</td>
+                                <td><span class="badge badge-blue">Optimal</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="athlete-info">
+                                        <div class="avatar">SS</div>
+                                        <span>Sarah Smith</span>
+                                    </div>
+                                </td>
+                                <td>Week 2</td>
+                                <td>1.15</td>
+                                <td>4,100</td>
+                                <td>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill yellow" style="width: 78%"></div>
+                                    </div>
+                                </td>
+                                <td>78%</td>
+                                <td><span class="badge badge-yellow">Moderate</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="athlete-info">
+                                        <div class="avatar">MJ</div>
+                                        <span>Mike Johnson</span>
+                                    </div>
+                                </td>
+                                <td>Week 2</td>
+                                <td>1.45</td>
+                                <td>5,200</td>
+                                <td>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill red" style="width: 92%"></div>
+                                    </div>
+                                </td>
+                                <td>54%</td>
+                                <td><span class="badge badge-red">High Risk</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="athlete-info">
+                                        <div class="avatar">EW</div>
+                                        <span>Emma Wilson</span>
+                                    </div>
+                                </td>
+                                <td>Week 2</td>
+                                <td>0.88</td>
+                                <td>2,800</td>
+                                <td>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill green" style="width: 55%"></div>
+                                    </div>
+                                </td>
+                                <td>95%</td>
+                                <td><span class="badge badge-blue">Optimal</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Injuries Section -->
+        <section id="injuries" class="section">
+            <div class="header">
+                <h1>Injury Management</h1>
+                <p>Track and manage athlete injuries</p>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Active Injuries</h3>
+                    <button class="btn btn-primary" onclick="openModal('injuryModal')">
+                        <i class="fas fa-plus"></i>
+                        Report Injury
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Athlete</th>
+                                <th>Injury Type</th>
+                                <th>Body Part</th>
+                                <th>Severity</th>
+                                <th>Date Reported</th>
+                                <th>Expected Return</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="athlete-info">
+                                        <div class="avatar">MJ</div>
+                                        <span>Mike Johnson</span>
+                                    </div>
+                                </td>
+                                <td>Ankle Sprain</td>
+                                <td>Right Ankle</td>
+                                <td><span class="badge badge-yellow">Grade II</span></td>
+                                <td>Apr 10, 2026</td>
+                                <td>Apr 24, 2026</td>
+                                <td><span class="badge badge-yellow">Rehabilitating</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-icon"><i class="fas fa-file-medical"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="athlete-info">
+                                        <div class="avatar">DL</div>
+                                        <span>David Lee</span>
+                                    </div>
+                                </td>
+                                <td>Hamstring Strain</td>
+                                <td>Left Hamstring</td>
+                                <td><span class="badge badge-red">Grade III</span></td>
+                                <td>Apr 5, 2026</td>
+                                <td>May 10, 2026</td>
+                                <td><span class="badge badge-red">Out</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-icon"><i class="fas fa-file-medical"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="athlete-info">
+                                        <div class="avatar">LC</div>
+                                        <span>Lisa Chen</span>
+                                    </div>
+                                </td>
+                                <td>Shoulder Impingement</td>
+                                <td>Right Shoulder</td>
+                                <td><span class="badge badge-green">Grade I</span></td>
+                                <td>Apr 8, 2026</td>
+                                <td>Apr 15, 2026</td>
+                                <td><span class="badge badge-blue">Returning</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-icon"><i class="fas fa-file-medical"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recovery Section -->
+        <section id="recovery" class="section">
+            <div class="header">
+                <h1>Recovery Management</h1>
+                <p>Track athlete recovery and wellness</p>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Recovery Status</h3>
+                    <button class="btn btn-primary" onclick="openModal('recoveryModal')">
+                        <i class="fas fa-plus"></i>
+                        Add Recovery Session
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Athlete</th>
+                                <th>Recovery Type</th>
+                                <th>Date</th>
+                                <th>Duration</th>
+                                <th>Wellness Score</th>
+                                <th>Sleep Quality</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="athlete-info">
+                                        <div class="avatar">JM</div>
+                                        <span>John Miller</span>
+                                    </div>
+                                </td>
+                                <td>Cryotherapy</td>
+                                <td>Apr 13, 2026</td>
+                                <td>15 min</td>
+                                <td>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill green" style="width: 88%"></div>
+                                    </div>
+                                </td>
+                                <td>8.5/10</td>
+                                <td><span class="badge badge-green">Excellent</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-icon"><i class="fas fa-chart-line"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="athlete-info">
+                                        <div class="avatar">SS</div>
+                                        <span>Sarah Smith</span>
+                                    </div>
+                                </td>
+                                <td>Massage Therapy</td>
+                                <td>Apr 13, 2026</td>
+                                <td>45 min</td>
+                                <td>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill yellow" style="width: 72%"></div>
+                                    </div>
+                                </td>
+                                <td>7.0/10</td>
+                                <td><span class="badge badge-yellow">Good</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-icon"><i class="fas fa-chart-line"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="athlete-info">
+                                        <div class="avatar">MJ</div>
+                                        <span>Mike Johnson</span>
+                                    </div>
+                                </td>
+                                <td>Physical Therapy</td>
+                                <td>Apr 12, 2026</td>
+                                <td>60 min</td>
+                                <td>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill yellow" style="width: 65%"></div>
+                                    </div>
+                                </td>
+                                <td>6.5/10</td>
+                                <td><span class="badge badge-yellow">Fair</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-icon"><i class="fas fa-chart-line"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="athlete-info">
+                                        <div class="avatar">EW</div>
+                                        <span>Emma Wilson</span>
+                                    </div>
+                                </td>
+                                <td>Active Recovery</td>
+                                <td>Apr 12, 2026</td>
+                                <td>30 min</td>
+                                <td>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill green" style="width: 92%"></div>
+                                    </div>
+                                </td>
+                                <td>9.0/10</td>
+                                <td><span class="badge badge-green">Excellent</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-icon"><i class="fas fa-chart-line"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Add Athlete Modal -->
+    <div class="modal-overlay" id="athleteModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Add New Athlete</h3>
+                <button class="modal-close" onclick="closeModal('athleteModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>First Name</label>
+                        <input type="text" class="form-control" placeholder="Enter first name">
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name</label>
+                        <input type="text" class="form-control" placeholder="Enter last name">
+                    </div>
+                    <div class="form-group">
+                        <label>Sport</label>
+                        <select class="form-control">
+                            <option>Select sport</option>
+                            <option>Basketball</option>
+                            <option>Soccer</option>
+                            <option>Tennis</option>
+                            <option>Swimming</option>
+                            <option>Track & Field</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Age</label>
+                        <input type="number" class="form-control" placeholder="Age">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" class="form-control" placeholder="Email address">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="tel" class="form-control" placeholder="Phone number">
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>Medical Notes</label>
+                        <textarea class="form-control" placeholder="Any relevant medical history or notes..."></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('athleteModal')">Cancel</button>
+                <button class="btn btn-primary">Add Athlete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Session Modal -->
+    <div class="modal-overlay" id="sessionModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Schedule New Session</h3>
+                <button class="modal-close" onclick="closeModal('sessionModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-grid">
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>Session Name</label>
+                        <input type="text" class="form-control" placeholder="e.g., Morning Strength Training">
+                    </div>
+                    <div class="form-group">
+                        <label>Athlete</label>
+                        <select class="form-control">
+                            <option>Select athlete</option>
+                            <option>John Miller</option>
+                            <option>Sarah Smith</option>
+                            <option>Mike Johnson</option>
+                            <option>Emma Wilson</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Session Type</label>
+                        <select class="form-control">
+                            <option>Select type</option>
+                            <option>Strength</option>
+                            <option>Cardio</option>
+                            <option>Skills</option>
+                            <option>Recovery</option>
+                            <option>Competition</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Date</label>
+                        <input type="date" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Time</label>
+                        <input type="time" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Duration (min)</label>
+                        <input type="number" class="form-control" placeholder="60">
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>Notes</label>
+                        <textarea class="form-control" placeholder="Session details and objectives..."></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('sessionModal')">Cancel</button>
+                <button class="btn btn-primary">Schedule Session</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Load Entry Modal -->
+    <div class="modal-overlay" id="loadModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Add Training Load Entry</h3>
+                <button class="modal-close" onclick="closeModal('loadModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Athlete</label>
+                        <select class="form-control">
+                            <option>Select athlete</option>
+                            <option>John Miller</option>
+                            <option>Sarah Smith</option>
+                            <option>Mike Johnson</option>
+                            <option>Emma Wilson</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Microcycle</label>
+                        <select class="form-control">
+                            <option>Week 1</option>
+                            <option>Week 2</option>
+                            <option>Week 3</option>
+                            <option>Week 4</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Session RPE</label>
+                        <input type="number" class="form-control" placeholder="1-10" min="1" max="10">
+                    </div>
+                    <div class="form-group">
+                        <label>Duration (min)</label>
+                        <input type="number" class="form-control" placeholder="60">
+                    </div>
+                    <div class="form-group">
+                        <label>Load (AU)</label>
+                        <input type="number" class="form-control" placeholder="Auto-calculated">
+                    </div>
+                    <div class="form-group">
+                        <label>Wellness Score</label>
+                        <input type="number" class="form-control" placeholder="1-10" min="1" max="10">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('loadModal')">Cancel</button>
+                <button class="btn btn-primary">Add Entry</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Report Injury Modal -->
+    <div class="modal-overlay" id="injuryModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Report Injury</h3>
+                <button class="modal-close" onclick="closeModal('injuryModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Athlete</label>
+                        <select class="form-control">
+                            <option>Select athlete</option>
+                            <option>John Miller</option>
+                            <option>Sarah Smith</option>
+                            <option>Mike Johnson</option>
+                            <option>Emma Wilson</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Body Part</label>
+                        <select class="form-control">
+                            <option>Select body part</option>
+                            <option>Ankle</option>
+                            <option>Knee</option>
+                            <option>Hamstring</option>
+                            <option>Shoulder</option>
+                            <option>Back</option>
+                            <option>Wrist</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>Injury Type</label>
+                        <input type="text" class="form-control" placeholder="e.g., Sprain, Strain, Fracture">
+                    </div>
+                    <div class="form-group">
+                        <label>Severity</label>
+                        <select class="form-control">
+                            <option>Grade I (Mild)</option>
+                            <option>Grade II (Moderate)</option>
+                            <option>Grade III (Severe)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Date of Injury</label>
+                        <input type="date" class="form-control">
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>Expected Return Date</label>
+                        <input type="date" class="form-control">
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>Notes</label>
+                        <textarea class="form-control" placeholder="Injury details and treatment plan..."></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('injuryModal')">Cancel</button>
+                <button class="btn btn-primary">Report Injury</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Recovery Session Modal -->
+    <div class="modal-overlay" id="recoveryModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Add Recovery Session</h3>
+                <button class="modal-close" onclick="closeModal('recoveryModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Athlete</label>
+                        <select class="form-control">
+                            <option>Select athlete</option>
+                            <option>John Miller</option>
+                            <option>Sarah Smith</option>
+                            <option>Mike Johnson</option>
+                            <option>Emma Wilson</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Recovery Type</label>
+                        <select class="form-control">
+                            <option>Select type</option>
+                            <option>Cryotherapy</option>
+                            <option>Massage Therapy</option>
+                            <option>Physical Therapy</option>
+                            <option>Active Recovery</option>
+                            <option>Compression</option>
+                            <option>Stretching</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Date</label>
+                        <input type="date" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Duration (min)</label>
+                        <input type="number" class="form-control" placeholder="30">
+                    </div>
+                    <div class="form-group">
+                        <label>Wellness Score (1-10)</label>
+                        <input type="number" class="form-control" min="1" max="10">
+                    </div>
+                    <div class="form-group">
+                        <label>Sleep Quality (1-10)</label>
+                        <input type="number" class="form-control" min="1" max="10">
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>Notes</label>
+                        <textarea class="form-control" placeholder="Recovery session notes..."></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('recoveryModal')">Cancel</button>
+                <button class="btn btn-primary">Add Session</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:3000/api';
+
+        // State
+        let athletes = [];
+        let sessions = [];
+        let trainingLoads = [];
+        let injuries = [];
+        let recovery = [];
+
+        // ============== API FUNCTIONS ==============
+        async function fetchAllData() {
+            try {
+                const [athletesRes, sessionsRes, loadsRes, injuriesRes, recoveryRes] = await Promise.all([
+                    fetch(`${API_BASE}/athletes`),
+                    fetch(`${API_BASE}/sessions`),
+                    fetch(`${API_BASE}/training-loads`),
+                    fetch(`${API_BASE}/injuries`),
+                    fetch(`${API_BASE}/recovery`)
+                ]);
+
+                athletes = await athletesRes.json();
+                sessions = await sessionsRes.json();
+                trainingLoads = await loadsRes.json();
+                injuries = await injuriesRes.json();
+                recovery = await recoveryRes.json();
+
+                renderAll();
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                showNotification('Failed to load data. Make sure the server is running.', 'error');
+            }
+        }
+
+        async function loadDashboardStats() {
+            try {
+                const statsRes = await fetch(`${API_BASE}/dashboard/stats`);
+                const stats = await statsRes.json();
+
+                document.querySelector('.stat-card .stat-value').textContent = stats.total_athletes;
+                document.querySelectorAll('.stat-card')[1].querySelector('.stat-value').textContent = stats.active_sessions;
+                document.querySelectorAll('.stat-card')[2].querySelector('.stat-value').textContent = stats.current_injuries;
+                document.querySelectorAll('.stat-card')[3].querySelector('.stat-value').textContent = stats.avg_recovery_rate + '%';
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+
+            try {
+                const activityRes = await fetch(`${API_BASE}/dashboard/activity`);
+                const activities = await activityRes.json();
+                renderActivityTable(activities);
+            } catch (error) {
+                console.error('Error loading activity:', error);
+            }
+        }
+
+        // ============== RENDER FUNCTIONS ==============
+        function renderAll() {
+            renderAthletesTable();
+            renderSessionsTable();
+            renderTrainingLoadsTable();
+            renderInjuriesTable();
+            renderRecoveryTable();
+            populateAthleteSelects();
+            loadDashboardStats();
+        }
+
+        function renderAthletesTable() {
+            const tbody = document.querySelector('#athletes table tbody');
+            tbody.innerHTML = athletes.map(a => `
+                <tr>
+                    <td>
+                        <div class="athlete-info">
+                            <div class="avatar">${getInitials(a.first_name, a.last_name)}</div>
+                            <div class="athlete-details">
+                                <span class="athlete-name">${a.first_name} ${a.last_name}</span>
+                                <span class="athlete-sport">ID: ${a.id}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>${a.sport}</td>
+                    <td>${a.age || '-'}</td>
+                    <td><span class="badge badge-${a.status === 'active' ? 'green' : a.status === 'injured' ? 'yellow' : 'gray'}">${capitalize(a.status)}</span></td>
+                    <td><span class="badge badge-${a.load_status === 'optimal' ? 'blue' : a.load_status === 'moderate' ? 'yellow' : a.load_status === 'high_risk' ? 'red' : 'gray'}">${formatLoadStatus(a.load_status)}</span></td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn-icon" onclick="editAthlete('${a.id}')" title="Edit"><i class="fas fa-edit"></i></button>
+                            <button class="btn-icon" onclick="deleteAthlete('${a.id}')" title="Delete"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderSessionsTable() {
+            const tbody = document.querySelector('#sessions table tbody');
+            tbody.innerHTML = sessions.map(s => `
+                <tr>
+                    <td><strong>${escapeHtml(s.name)}</strong></td>
+                    <td>${escapeHtml(s.first_name)} ${escapeHtml(s.last_name)}</td>
+                    <td>${escapeHtml(s.session_type)}</td>
+                    <td>${formatDate(s.session_date)} - ${s.session_time || 'TBD'}</td>
+                    <td>${s.duration || '-'} min</td>
+                    <td><span class="badge badge-${getStatusBadge(s.status)}">${formatStatus(s.status)}</span></td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn-icon" onclick="editSession('${s.id}')" title="Edit"><i class="fas fa-edit"></i></button>
+                            <button class="btn-icon" onclick="completeSession('${s.id}')" title="Complete"><i class="fas fa-check"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderTrainingLoadsTable() {
+            const tbody = document.querySelector('#loads table tbody');
+            tbody.innerHTML = trainingLoads.map(l => `
+                <tr>
+                    <td>
+                        <div class="athlete-info">
+                            <div class="avatar">${getInitials(l.first_name, l.last_name)}</div>
+                            <span>${escapeHtml(l.first_name)} ${escapeHtml(l.last_name)}</span>
+                        </div>
+                    </td>
+                    <td>${escapeHtml(l.microcycle)}</td>
+                    <td>-</td>
+                    <td>${l.load_au?.toLocaleString() || '-'}</td>
+                    <td>
+                        <div class="progress-bar">
+                            <div class="progress-fill ${getFatigueColor(l.fatigue_score)}" style="width: ${l.fatigue_score || 50}%"></div>
+                        </div>
+                    </td>
+                    <td>${l.readiness_score || '-'}%</td>
+                    <td><span class="badge badge-${getStatusBadge(l.status)}">${formatLoadStatus(l.status)}</span></td>
+                </tr>
+            `).join('');
+        }
+
+        function renderInjuriesTable() {
+            const tbody = document.querySelector('#injuries table tbody');
+            tbody.innerHTML = injuries.map(i => `
+                <tr>
+                    <td>
+                        <div class="athlete-info">
+                            <div class="avatar">${getInitials(i.first_name, i.last_name)}</div>
+                            <span>${escapeHtml(i.first_name)} ${escapeHtml(i.last_name)}</span>
+                        </div>
+                    </td>
+                    <td>${escapeHtml(i.injury_type)}</td>
+                    <td>${escapeHtml(i.body_part)}</td>
+                    <td><span class="badge badge-${getSeverityBadge(i.severity)}">${escapeHtml(i.severity)}</span></td>
+                    <td>${formatDate(i.date_reported)}</td>
+                    <td>${formatDate(i.expected_return)}</td>
+                    <td><span class="badge badge-${getInjuryStatusBadge(i.status)}">${capitalize(i.status)}</span></td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn-icon" onclick="editInjury('${i.id}')" title="Edit"><i class="fas fa-edit"></i></button>
+                            <button class="btn-icon" onclick="viewInjuryDetails('${i.id}')" title="View"><i class="fas fa-file-medical"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderRecoveryTable() {
+            const tbody = document.querySelector('#recovery table tbody');
+            tbody.innerHTML = recovery.map(r => `
+                <tr>
+                    <td>
+                        <div class="athlete-info">
+                            <div class="avatar">${getInitials(r.first_name, r.last_name)}</div>
+                            <span>${escapeHtml(r.first_name)} ${escapeHtml(r.last_name)}</span>
+                        </div>
+                    </td>
+                    <td>${escapeHtml(r.recovery_type)}</td>
+                    <td>${formatDate(r.recovery_date)}</td>
+                    <td>${r.duration || '-'} min</td>
+                    <td>
+                        <div class="progress-bar">
+                            <div class="progress-fill ${getWellnessColor(r.wellness_score)}" style="width: ${(r.wellness_score / 10) * 100}%"></div>
+                        </div>
+                    </td>
+                    <td>${r.sleep_quality || '-'}/10</td>
+                    <td><span class="badge badge-${getRecoveryStatusBadge(r.status)}">${capitalize(r.status)}</span></td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn-icon" onclick="editRecovery('${r.id}')" title="Edit"><i class="fas fa-edit"></i></button>
+                            <button class="btn-icon" onclick="viewRecoveryDetails('${r.id}')" title="View"><i class="fas fa-chart-line"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderActivityTable(activities) {
+            const tbody = document.querySelector('#dashboard table tbody');
+            tbody.innerHTML = activities.map(a => `
+                <tr>
+                    <td>
+                        <div class="athlete-info">
+                            <div class="avatar">${getInitials(a.athlete.first_name, a.athlete.last_name)}</div>
+                            <div class="athlete-details">
+                                <span class="athlete-name">${a.athlete.first_name} ${a.athlete.last_name}</span>
+                                <span class="athlete-sport">${a.athlete.sport}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>${escapeHtml(a.activity)}</td>
+                    <td>${formatDate(a.date)}</td>
+                    <td><span class="badge badge-${getStatusBadge(a.status)}">${capitalize(a.status)}</span></td>
+                </tr>
+            `).join('');
+        }
+
+        function populateAthleteSelects() {
+            document.querySelectorAll('select').forEach(select => {
+                if (select.innerHTML.includes('Select athlete') || select.innerHTML.includes('option value="ATH')) {
+                    const currentValue = select.value;
+                    select.innerHTML = '<option value="">Select athlete</option>' +
+                        athletes.map(a => `<option value="${a.id}">${a.first_name} ${a.last_name}</option>`).join('');
+                    if (currentValue) select.value = currentValue;
+                }
+            });
+        }
+
+        // ============== CRUD OPERATIONS ==============
+
+        // Athletes
+        async function addAthlete(data) {
+            try {
+                const res = await fetch(`${API_BASE}/athletes`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const athlete = await res.json();
+                athletes.push(athlete);
+                renderAthletesTable();
+                populateAthleteSelects();
+                showNotification('Athlete added successfully', 'success');
+                return true;
+            } catch (error) {
+                showNotification('Failed to add athlete', 'error');
+                return false;
+            }
+        }
+
+        async function updateAthlete(id, data) {
+            try {
+                const res = await fetch(`${API_BASE}/athletes/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const athlete = await res.json();
+                const index = athletes.findIndex(a => a.id === id);
+                athletes[index] = athlete;
+                renderAthletesTable();
+                showNotification('Athlete updated successfully', 'success');
+                return true;
+            } catch (error) {
+                showNotification('Failed to update athlete', 'error');
+                return false;
+            }
+        }
+
+        async function deleteAthlete(id) {
+            if (!confirm('Are you sure you want to delete this athlete? This will also delete their sessions, injuries, and recovery records.')) return;
+            try {
+                await fetch(`${API_BASE}/athletes/${id}`, { method: 'DELETE' });
+                athletes = athletes.filter(a => a.id !== id);
+                renderAthletesTable();
+                populateAthleteSelects();
+                showNotification('Athlete deleted successfully', 'success');
+            } catch (error) {
+                showNotification('Failed to delete athlete', 'error');
+            }
+        }
+
+        async function editAthlete(id) {
+            const athlete = athletes.find(a => a.id === id);
+            if (!athlete) return;
+
+            const modal = document.getElementById('athleteModal');
+            modal.querySelector('[placeholder="Enter first name"]').value = athlete.first_name;
+            modal.querySelector('[placeholder="Enter last name"]').value = athlete.last_name;
+            modal.querySelector('select').value = athlete.sport;
+            modal.querySelector('[placeholder="Age"]').value = athlete.age || '';
+            modal.querySelector('[placeholder="Email address"]').value = athlete.email || '';
+            modal.querySelector('[placeholder="Phone number"]').value = athlete.phone || '';
+            modal.querySelector('textarea').value = athlete.medical_notes || '';
+
+            const saveBtn = modal.querySelector('.btn-primary');
+            saveBtn.textContent = 'Update Athlete';
+            saveBtn.onclick = async () => {
+                const data = {
+                    first_name: modal.querySelector('[placeholder="Enter first name"]').value,
+                    last_name: modal.querySelector('[placeholder="Enter last name"]').value,
+                    sport: modal.querySelector('select').value,
+                    age: parseInt(modal.querySelector('[placeholder="Age"]').value) || null,
+                    email: modal.querySelector('[placeholder="Email address"]').value,
+                    phone: modal.querySelector('[placeholder="Phone number"]').value,
+                    status: athlete.status,
+                    medical_notes: modal.querySelector('textarea').value
+                };
+                await updateAthlete(id, data);
+                closeModal('athleteModal');
+                saveBtn.textContent = 'Add Athlete';
+                saveBtn.onclick = () => submitAthleteForm();
+            };
+
+            openModal('athleteModal');
+        }
+
+        async function submitAthleteForm() {
+            const modal = document.getElementById('athleteModal');
+            const data = {
+                first_name: modal.querySelector('[placeholder="Enter first name"]').value,
+                last_name: modal.querySelector('[placeholder="Enter last name"]').value,
+                sport: modal.querySelector('select').value,
+                age: parseInt(modal.querySelector('[placeholder="Age"]').value) || null,
+                email: modal.querySelector('[placeholder="Email address"]').value,
+                phone: modal.querySelector('[placeholder="Phone number"]').value,
+                medical_notes: modal.querySelector('textarea').value
+            };
+
+            if (!data.first_name || !data.last_name || !data.sport) {
+                showNotification('Please fill in required fields', 'error');
+                return;
+            }
+
+            await addAthlete(data);
+            closeModal('athleteModal');
+        }
+
+        // Sessions
+        async function addSession(data) {
+            try {
+                const res = await fetch(`${API_BASE}/sessions`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const session = await res.json();
+                sessions.push(session);
+                renderSessionsTable();
+                showNotification('Session added successfully', 'success');
+                return true;
+            } catch (error) {
+                showNotification('Failed to add session', 'error');
+                return false;
+            }
+        }
+
+        async function updateSession(id, data) {
+            try {
+                const res = await fetch(`${API_BASE}/sessions/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const session = await res.json();
+                const index = sessions.findIndex(s => s.id === id);
+                sessions[index] = session;
+                renderSessionsTable();
+                showNotification('Session updated successfully', 'success');
+                return true;
+            } catch (error) {
+                showNotification('Failed to update session', 'error');
+                return false;
+            }
+        }
+
+        async function deleteSession(id) {
+            if (!confirm('Are you sure you want to delete this session?')) return;
+            try {
+                await fetch(`${API_BASE}/sessions/${id}`, { method: 'DELETE' });
+                sessions = sessions.filter(s => s.id !== id);
+                renderSessionsTable();
+                showNotification('Session deleted successfully', 'success');
+            } catch (error) {
+                showNotification('Failed to delete session', 'error');
+            }
+        }
+
+        async function completeSession(id) {
+            await updateSession(id, { status: 'completed' });
+        }
+
+        async function editSession(id) {
+            const session = sessions.find(s => s.id === id);
+            if (!session) return;
+
+            const modal = document.getElementById('sessionModal');
+            modal.querySelector('[placeholder="e.g., Morning Strength Training"]').value = session.name;
+            modal.querySelector('select').value = session.athlete_id;
+            modal.querySelectorAll('select')[1].value = session.session_type;
+            modal.querySelector('[type="date"]').value = session.session_date;
+            modal.querySelector('[type="time"]').value = session.session_time || '';
+            modal.querySelector('[placeholder="60"]').value = session.duration || '';
+            modal.querySelector('textarea').value = session.notes || '';
+
+            const saveBtn = modal.querySelector('.btn-primary');
+            saveBtn.textContent = 'Update Session';
+            saveBtn.onclick = async () => {
+                const data = {
+                    name: modal.querySelector('[placeholder="e.g., Morning Strength Training"]').value,
+                    athlete_id: modal.querySelector('select').value,
+                    session_type: modal.querySelectorAll('select')[1].value,
+                    session_date: modal.querySelector('[type="date"]').value,
+                    session_time: modal.querySelector('[type="time"]').value,
+                    duration: parseInt(modal.querySelector('[placeholder="60"]').value) || null,
+                    status: session.status,
+                    notes: modal.querySelector('textarea').value
+                };
+                await updateSession(id, data);
+                closeModal('sessionModal');
+                saveBtn.textContent = 'Schedule Session';
+                saveBtn.onclick = () => submitSessionForm();
+            };
+
+            openModal('sessionModal');
+        }
+
+        async function submitSessionForm() {
+            const modal = document.getElementById('sessionModal');
+            const data = {
+                name: modal.querySelector('[placeholder="e.g., Morning Strength Training"]').value,
+                athlete_id: modal.querySelector('select').value,
+                session_type: modal.querySelectorAll('select')[1].value,
+                session_date: modal.querySelector('[type="date"]').value,
+                session_time: modal.querySelector('[type="time"]').value,
+                duration: parseInt(modal.querySelector('[placeholder="60"]').value) || null,
+                notes: modal.querySelector('textarea').value
+            };
+
+            if (!data.name || !data.athlete_id || !data.session_type || !data.session_date) {
+                showNotification('Please fill in required fields', 'error');
+                return;
+            }
+
+            await addSession(data);
+            closeModal('sessionModal');
+        }
+
+        // Training Loads
+        async function addTrainingLoad(data) {
+            try {
+                const res = await fetch(`${API_BASE}/training-loads`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const load = await res.json();
+                trainingLoads.push(load);
+                renderTrainingLoadsTable();
+                showNotification('Training load added successfully', 'success');
+                return true;
+            } catch (error) {
+                showNotification('Failed to add training load', 'error');
+                return false;
+            }
+        }
+
+        async function submitLoadForm() {
+            const modal = document.getElementById('loadModal');
+            const data = {
+                athlete_id: modal.querySelector('select').value,
+                microcycle: modal.querySelectorAll('select')[1].value,
+                session_rpe: parseInt(modal.querySelector('[placeholder="1-10"]').value) || null,
+                duration: parseInt(modal.querySelector('[placeholder="60"]').value) || null,
+                wellness_score: parseInt(modal.querySelectorAll('[placeholder="1-10"]')[1].value) || null
+            };
+
+            if (!data.athlete_id) {
+                showNotification('Please select an athlete', 'error');
+                return;
+            }
+
+            await addTrainingLoad(data);
+            closeModal('loadModal');
+        }
+
+        // Injuries
+        async function addInjury(data) {
+            try {
+                const res = await fetch(`${API_BASE}/injuries`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const injury = await res.json();
+                injuries.push(injury);
+                renderInjuriesTable();
+                showNotification('Injury reported successfully', 'success');
+                return true;
+            } catch (error) {
+                showNotification('Failed to report injury', 'error');
+                return false;
+            }
+        }
+
+        async function submitInjuryForm() {
+            const modal = document.getElementById('injuryModal');
+            const data = {
+                athlete_id: modal.querySelector('select').value,
+                body_part: modal.querySelector('[placeholder="Select body part"]').value,
+                injury_type: modal.querySelector('[placeholder="e.g., Sprain, Strain, Fracture"]').value,
+                severity: modal.querySelectorAll('select')[1].value,
+                date_reported: modal.querySelector('[type="date"]:first-of-type').value,
+                date_injured: modal.querySelector('[type="date"]:first-of-type').value,
+                expected_return: modal.querySelector('[type="date"]:last-of-type').value,
+                notes: modal.querySelector('textarea').value
+            };
+
+            if (!data.athlete_id || !data.body_part || !data.injury_type) {
+                showNotification('Please fill in required fields', 'error');
+                return;
+            }
+
+            await addInjury(data);
+            closeModal('injuryModal');
+        }
+
+        async function editInjury(id) {
+            const injury = injuries.find(i => i.id === id);
+            if (!injury) return;
+
+            const modal = document.getElementById('injuryModal');
+            modal.querySelector('select').value = injury.athlete_id;
+            modal.querySelector('[placeholder="Select body part"]').value = injury.body_part;
+            modal.querySelector('[placeholder="e.g., Sprain, Strain, Fracture"]').value = injury.injury_type;
+            modal.querySelectorAll('select')[1].value = injury.severity;
+            modal.querySelector('[type="date"]:first-of-type').value = injury.date_reported;
+            modal.querySelector('[type="date"]:last-of-type').value = injury.expected_return;
+            modal.querySelector('textarea').value = injury.notes || '';
+
+            const saveBtn = modal.querySelector('.btn-primary');
+            saveBtn.textContent = 'Update Injury';
+            saveBtn.onclick = async () => {
+                const data = {
+                    athlete_id: modal.querySelector('select').value,
+                    body_part: modal.querySelector('[placeholder="Select body part"]').value,
+                    injury_type: modal.querySelector('[placeholder="e.g., Sprain, Strain, Fracture"]').value,
+                    severity: modal.querySelectorAll('select')[1].value,
+                    date_reported: modal.querySelector('[type="date"]:first-of-type').value,
+                    expected_return: modal.querySelector('[type="date"]:last-of-type').value,
+                    status: injury.status,
+                    notes: modal.querySelector('textarea').value
+                };
+                await fetch(`${API_BASE}/injuries/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                await fetchAllData();
+                closeModal('injuryModal');
+                saveBtn.textContent = 'Report Injury';
+                saveBtn.onclick = () => submitInjuryForm();
+            };
+
+            openModal('injuryModal');
+        }
+
+        function viewInjuryDetails(id) {
+            const injury = injuries.find(i => i.id === id);
+            alert(`Injury Details:\n\nAthlete: ${injury.first_name} ${injury.last_name}\nType: ${injury.injury_type}\nBody Part: ${injury.body_part}\nSeverity: ${injury.severity}\nReported: ${injury.date_reported}\nExpected Return: ${injury.expected_return}\nStatus: ${injury.status}\n\nNotes: ${injury.notes || 'No notes'}`);
+        }
+
+        // Recovery
+        async function addRecovery(data) {
+            try {
+                const res = await fetch(`${API_BASE}/recovery`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const record = await res.json();
+                recovery.push(record);
+                renderRecoveryTable();
+                showNotification('Recovery session added successfully', 'success');
+                return true;
+            } catch (error) {
+                showNotification('Failed to add recovery session', 'error');
+                return false;
+            }
+        }
+
+        async function submitRecoveryForm() {
+            const modal = document.getElementById('recoveryModal');
+            const data = {
+                athlete_id: modal.querySelector('select').value,
+                recovery_type: modal.querySelector('[placeholder="Select type"]').value,
+                recovery_date: modal.querySelector('[type="date"]').value,
+                duration: parseInt(modal.querySelector('[placeholder="30"]').value) || null,
+                wellness_score: parseInt(modal.querySelector('[placeholder="Wellness Score (1-10)"]')?.value) || parseInt(modal.querySelectorAll('[type="number"]')[1]?.value) || null,
+                sleep_quality: parseFloat(modal.querySelector('[placeholder="Sleep Quality (1-10)"]')?.value) || parseFloat(modal.querySelectorAll('[type="number"]')[2]?.value) || null,
+                notes: modal.querySelector('textarea').value
+            };
+
+            if (!data.athlete_id || !data.recovery_type) {
+                showNotification('Please fill in required fields', 'error');
+                return;
+            }
+
+            await addRecovery(data);
+            closeModal('recoveryModal');
+        }
+
+        async function editRecovery(id) {
+            const record = recovery.find(r => r.id === id);
+            if (!record) return;
+
+            const modal = document.getElementById('recoveryModal');
+            modal.querySelector('select').value = record.athlete_id;
+            modal.querySelector('[placeholder="Select type"]').value = record.recovery_type;
+            modal.querySelector('[type="date"]').value = record.recovery_date;
+            modal.querySelector('[placeholder="30"]').value = record.duration || '';
+            const wellnessInput = modal.querySelector('[placeholder="Wellness Score (1-10)"]') || modal.querySelectorAll('[type="number"]')[1];
+            const sleepInput = modal.querySelector('[placeholder="Sleep Quality (1-10)"]') || modal.querySelectorAll('[type="number"]')[2];
+            if (wellnessInput) wellnessInput.value = record.wellness_score || '';
+            if (sleepInput) sleepInput.value = record.sleep_quality || '';
+            modal.querySelector('textarea').value = record.notes || '';
+
+            const saveBtn = modal.querySelector('.btn-primary');
+            saveBtn.textContent = 'Update Session';
+            saveBtn.onclick = async () => {
+                const data = {
+                    athlete_id: modal.querySelector('select').value,
+                    recovery_type: modal.querySelector('[placeholder="Select type"]').value,
+                    recovery_date: modal.querySelector('[type="date"]').value,
+                    duration: parseInt(modal.querySelector('[placeholder="30"]').value) || null,
+                    wellness_score: parseInt(wellnessInput.value) || null,
+                    sleep_quality: parseFloat(sleepInput.value) || null,
+                    status: record.status,
+                    notes: modal.querySelector('textarea').value
+                };
+                await fetch(`${API_BASE}/recovery/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                await fetchAllData();
+                closeModal('recoveryModal');
+                saveBtn.textContent = 'Add Session';
+                saveBtn.onclick = () => submitRecoveryForm();
+            };
+
+            openModal('recoveryModal');
+        }
+
+        function viewRecoveryDetails(id) {
+            const record = recovery.find(r => r.id === id);
+            alert(`Recovery Session Details:\n\nAthlete: ${record.first_name} ${record.last_name}\nType: ${record.recovery_type}\nDate: ${record.recovery_date}\nDuration: ${record.duration} min\nWellness Score: ${record.wellness_score}/10\nSleep Quality: ${record.sleep_quality}/10\nStatus: ${record.status}\n\nNotes: ${record.notes || 'No notes'}`);
+        }
+
+        // ============== UTILITY FUNCTIONS ==============
+        function getInitials(first, last) {
+            return (first?.[0] || '') + (last?.[0] || '');
+        }
+
+        function capitalize(str) {
+            return str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return '-';
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function formatLoadStatus(status) {
+            if (!status) return 'Unknown';
+            return status.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
+        }
+
+        function formatStatus(status) {
+            return status.replace('_', ' ');
+        }
+
+        function getStatusBadge(status) {
+            const badges = {
+                'completed': 'green',
+                'in_progress': 'blue',
+                'scheduled': 'gray',
+                'active': 'green',
+                'injured': 'yellow',
+                'optimal': 'blue',
+                'moderate': 'yellow',
+                'high_risk': 'red'
+            };
+            return badges[status] || 'gray';
+        }
+
+        function getSeverityBadge(severity) {
+            if (severity === 'Grade I') return 'green';
+            if (severity === 'Grade II') return 'yellow';
+            if (severity === 'Grade III') return 'red';
+            return 'gray';
+        }
+
+        function getInjuryStatusBadge(status) {
+            const badges = {
+                'active': 'yellow',
+                'rehabilitating': 'yellow',
+                'returning': 'blue',
+                'recovered': 'green',
+                'out': 'red'
+            };
+            return badges[status] || 'gray';
+        }
+
+        function getRecoveryStatusBadge(status) {
+            const badges = {
+                'excellent': 'green',
+                'good': 'yellow',
+                'fair': 'yellow',
+                'completed': 'blue'
+            };
+            return badges[status] || 'gray';
+        }
+
+        function getFatigueColor(score) {
+            if (score < 50) return 'green';
+            if (score < 75) return 'yellow';
+            return 'red';
+        }
+
+        function getWellnessColor(score) {
+            if (score >= 8) return 'green';
+            if (score >= 6) return 'yellow';
+            return 'red';
+        }
+
+        function showNotification(message, type) {
+            const existing = document.querySelector('.notification');
+            if (existing) existing.remove();
+
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                ${message}
+            `;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 14px 20px;
+                border-radius: 8px;
+                background: ${type === 'success' ? '#ecfdf5' : '#fef2f2'};
+                color: ${type === 'success' ? '#059669' : '#dc2626'};
+                font-size: 14px;
+                font-weight: 500;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                z-index: 10001;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                animation: slideIn 0.3s ease-out;
+            `;
+
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 3000);
+        }
+
+        // ============== MODAL FUNCTIONS ==============
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            // Reset modal to add mode
+            const modal = document.getElementById(modalId);
+            const saveBtn = modal.querySelector('.btn-primary');
+            if (saveBtn) {
+                if (modalId === 'athleteModal') {
+                    saveBtn.textContent = 'Add Athlete';
+                    saveBtn.onclick = () => submitAthleteForm();
+                } else if (modalId === 'sessionModal') {
+                    saveBtn.textContent = 'Schedule Session';
+                    saveBtn.onclick = () => submitSessionForm();
+                } else if (modalId === 'loadModal') {
+                    saveBtn.textContent = 'Add Entry';
+                    saveBtn.onclick = () => submitLoadForm();
+                } else if (modalId === 'injuryModal') {
+                    saveBtn.textContent = 'Report Injury';
+                    saveBtn.onclick = () => submitInjuryForm();
+                } else if (modalId === 'recoveryModal') {
+                    saveBtn.textContent = 'Add Session';
+                    saveBtn.onclick = () => submitRecoveryForm();
+                }
+            }
+            // Clear form fields
+            modal.querySelectorAll('input').forEach(input => input.value = '');
+            modal.querySelectorAll('select').forEach(select => select.selectedIndex = 0);
+            modal.querySelector('textarea')?.querySelector ? null : (modal.querySelector('textarea') && (modal.querySelector('textarea').value = ''));
+        }
+
+        // ============== INITIALIZATION ==============
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', () => {
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+
+                const sectionId = item.dataset.section;
+                document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+                document.getElementById(sectionId).classList.add('active');
+            });
+        });
+
+        // Close modal on overlay click
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    closeModal(e.target.id);
+                }
+            });
+        });
+
+        // Close modal on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-overlay').forEach(modal => {
+                    modal.classList.remove('active');
+                });
+            }
+        });
+
+        // Set up form submissions
+        document.querySelector('#athleteModal .btn-primary').onclick = () => submitAthleteForm();
+        document.querySelector('#sessionModal .btn-primary').onclick = () => submitSessionForm();
+        document.querySelector('#loadModal .btn-primary').onclick = () => submitLoadForm();
+        document.querySelector('#injuryModal .btn-primary').onclick = () => submitInjuryForm();
+        document.querySelector('#recoveryModal .btn-primary').onclick = () => submitRecoveryForm();
+
+        // Load data on page load
+        fetchAllData();
+    </script>
+</body>
+</html>

@@ -3,38 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sports Training & Injury Management</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>SportAid - Sports Training & Injury Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #2563eb;
-            --primary-light: #3b82f6;
-            --primary-dark: #1d4ed8;
-            --secondary: #64748b;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --bg-primary: #f8fafc;
-            --bg-secondary: #ffffff;
-            --text-primary: #1e293b;
-            --text-secondary: #64748b;
-            --border: #e2e8f0;
-            --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --primary: #3b82f6;
+            --primary-glow: rgba(59, 130, 246, 0.4);
+            --bg-body: #020617;
+            --bg-card: rgba(15, 23, 42, 0.8);
+            --bg-sidebar: #0f172a;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --accent-green: #10b981;
+            --accent-red: #f43f5e;
+            --accent-orange: #f59e0b;
+            --border-glass: rgba(255, 255, 255, 0.1);
+            --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            scrollbar-width: thin;
+            scrollbar-color: var(--border-glass) transparent;
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-body);
+            color: var(--text-main);
             line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .mesh-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.1) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(16, 185, 129, 0.05) 0px, transparent 50%),
+                radial-gradient(at 50% 100%, rgba(244, 63, 94, 0.05) 0px, transparent 50%);
+            filter: blur(80px);
         }
 
         /* Sidebar Navigation */
@@ -43,360 +60,370 @@
             left: 0;
             top: 0;
             height: 100vh;
-            width: 260px;
-            background: var(--bg-secondary);
-            border-right: 1px solid var(--border);
-            padding: 24px;
-            overflow-y: auto;
+            width: 280px;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-right: 1px solid var(--border-glass);
+            padding: 32px 24px;
+            z-index: 1000;
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 40px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--border);
+            gap: 16px;
+            margin-bottom: 48px;
         }
 
         .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            border-radius: 10px;
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--primary), #60a5fa);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 20px;
+            font-size: 22px;
+            box-shadow: 0 0 20px var(--primary-glow);
         }
 
         .logo-text {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--text-primary);
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .nav-section {
-            margin-bottom: 24px;
+            margin-bottom: 32px;
         }
 
         .nav-label {
             font-size: 11px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: var(--text-secondary);
-            margin-bottom: 12px;
-            font-weight: 500;
+            letter-spacing: 2px;
+            color: var(--text-dim);
+            margin-bottom: 16px;
+            font-weight: 600;
+            opacity: 0.6;
         }
 
         .nav-item {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
-            border-radius: 8px;
-            color: var(--text-secondary);
+            gap: 14px;
+            padding: 14px 18px;
+            border-radius: 12px;
+            color: var(--text-dim);
             text-decoration: none;
-            transition: all 0.2s;
-            margin-bottom: 4px;
+            transition: var(--transition);
+            margin-bottom: 8px;
             cursor: pointer;
+            font-weight: 500;
         }
 
         .nav-item:hover {
-            background: var(--bg-primary);
-            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            transform: translateX(4px);
         }
 
         .nav-item.active {
-            background: #eff6ff;
-            color: var(--primary);
+            background: linear-gradient(to right, var(--primary), transparent);
+            color: #fff;
+            border-left: 4px solid var(--primary);
         }
 
         .nav-item i {
-            width: 18px;
-            font-size: 16px;
+            font-size: 18px;
         }
 
         /* Main Content */
         .main-content {
-            margin-left: 260px;
-            padding: 32px 40px;
+            margin-left: 280px;
+            padding: 48px;
+            max-width: 1400px;
         }
 
         .header {
-            margin-bottom: 32px;
+            margin-bottom: 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
         }
 
         .header h1 {
-            font-size: 28px;
-            font-weight: 600;
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: -1px;
             margin-bottom: 8px;
         }
 
         .header p {
-            color: var(--text-secondary);
-            font-size: 14px;
+            color: var(--text-dim);
+            font-size: 16px;
         }
 
         /* Stats Cards */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 32px;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+            margin-bottom: 48px;
         }
 
         .stat-card {
-            background: var(--bg-secondary);
-            border-radius: 12px;
-            padding: 24px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 28px;
+            border: 1px solid var(--border-glass);
+            transition: var(--transition);
+            box-shadow: var(--card-shadow);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255,255,255,0.2);
         }
 
         .stat-card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
         }
 
         .stat-card-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 10px;
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
+            font-size: 24px;
         }
 
-        .stat-card-icon.blue { background: #eff6ff; color: var(--primary); }
-        .stat-card-icon.green { background: #ecfdf5; color: var(--success); }
-        .stat-card-icon.orange { background: #fffbeb; color: var(--warning); }
-        .stat-card-icon.red { background: #fef2f2; color: var(--danger); }
+        .stat-card-icon.blue { background: rgba(59, 130, 246, 0.1); color: #60a5fa; }
+        .stat-card-icon.green { background: rgba(16, 185, 129, 0.1); color: #34d399; }
+        .stat-card-icon.orange { background: rgba(245, 158, 11, 0.1); color: #fbbf24; }
+        .stat-card-icon.red { background: rgba(244, 63, 94, 0.1); color: #fb7185; }
 
         .stat-value {
-            font-size: 32px;
-            font-weight: 600;
-            margin-bottom: 4px;
+            font-size: 40px;
+            font-weight: 700;
+            letter-spacing: -1px;
+            color: #fff;
         }
 
         .stat-label {
-            font-size: 13px;
-            color: var(--text-secondary);
+            font-size: 14px;
+            color: var(--text-dim);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
+        /* Cards */
         /* Content Sections */
         .section {
             display: none;
+            animation: fadeIn 0.4s ease-out;
         }
 
         .section.active {
             display: block;
         }
 
-        /* Cards */
         .card {
-            background: var(--bg-secondary);
-            border-radius: 12px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-            overflow: hidden;
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid var(--border-glass);
+            box-shadow: var(--card-shadow);
+            margin-bottom: 32px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .card-header {
+            padding: 24px 32px;
+            border-bottom: 1px solid var(--border-glass);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 24px;
-            border-bottom: 1px solid var(--border);
         }
 
         .card-title {
-            font-size: 16px;
+            font-size: 20px;
             font-weight: 600;
-        }
-
-        .card-body {
-            padding: 24px;
-        }
-
-        /* Buttons */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 500;
-            border: none;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-dark);
-        }
-
-        .btn-secondary {
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            border: 1px solid var(--border);
-        }
-
-        .btn-secondary:hover {
-            background: var(--border);
-        }
-
-        .btn-sm {
-            padding: 6px 12px;
-            font-size: 13px;
+            color: #fff;
         }
 
         /* Tables */
         .table-container {
-            overflow-x: auto;
+            padding: 16px;
         }
 
         table {
             width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 14px 16px;
-            text-align: left;
-            border-bottom: 1px solid var(--border);
+            border-collapse: separate;
+            border-spacing: 0 8px;
         }
 
         th {
+            padding: 16px 24px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-dim);
+            text-align: left;
+        }
+
+        td {
+            padding: 20px 24px;
+            background: rgba(255,255,255,0.02);
+            font-size: 15px;
+            vertical-align: middle;
+        }
+
+        tr td:first-child { border-radius: 12px 0 0 12px; }
+        tr td:last-child { border-radius: 0 12px 12px 0; }
+
+        tr:hover td {
+            background: rgba(255,255,255,0.05);
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), #60a5fa);
+            color: #fff;
+            box-shadow: 0 4px 14px var(--primary-glow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px var(--primary-glow);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            border: 1px solid var(--border-glass);
+        }
+
+        .btn-secondary:hover { background: rgba(255,255,255,0.1); }
+
+        /* Badges */
+        .badge {
+            padding: 6px 14px;
+            border-radius: 8px;
             font-size: 12px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            color: var(--text-secondary);
-            background: var(--bg-primary);
+            white-space: nowrap;
         }
 
-        td {
-            font-size: 14px;
-        }
+        .badge-blue { background: rgba(59, 130, 246, 0.1); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.2); }
+        .badge-green { background: rgba(16, 185, 129, 0.1); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.2); }
+        .badge-red { background: rgba(244, 63, 94, 0.1); color: #fb7185; border: 1px solid rgba(244, 63, 94, 0.2); }
+        .badge-yellow { background: rgba(245, 158, 11, 0.1); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.2); }
 
-        tr:hover {
-            background: var(--bg-primary);
-        }
-
-        tr:last-child td {
-            border-bottom: none;
-        }
-
-        /* Status Badges */
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-
-        .badge-green {
-            background: #ecfdf5;
-            color: #059669;
-        }
-
-        .badge-yellow {
-            background: #fffbeb;
-            color: #d97706;
-        }
-
-        .badge-red {
-            background: #fef2f2;
-            color: #dc2626;
-        }
-
-        .badge-blue {
-            background: #eff6ff;
-            color: #2563eb;
-        }
-
-        .badge-gray {
-            background: #f1f5f9;
-            color: #475569;
-        }
-
-        /* Forms */
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 13px;
-            font-weight: 500;
-            margin-bottom: 8px;
-            color: var(--text-secondary);
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 10px 14px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            font-size: 14px;
-            font-family: inherit;
-            transition: all 0.2s;
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-
-        select.form-control {
-            cursor: pointer;
-        }
-
-        textarea.form-control {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        /* Progress Bars */
+        /* Progress */
         .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: var(--bg-primary);
-            border-radius: 4px;
+            height: 10px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 6px;
             overflow: hidden;
+            width: 120px;
         }
 
         .progress-fill {
             height: 100%;
-            border-radius: 4px;
-            transition: width 0.3s;
+            border-radius: 6px;
+            box-shadow: 0 0 10px rgba(255,255,255,0.1);
         }
 
-        .progress-fill.green { background: var(--success); }
-        .progress-fill.yellow { background: var(--warning); }
-        .progress-fill.red { background: var(--danger); }
-        .progress-fill.blue { background: var(--primary); }
+        .progress-fill.green { background: linear-gradient(to right, #10b981, #34d399); }
+        .progress-fill.yellow { background: linear-gradient(to right, #f59e0b, #fbbf24); }
+        .progress-fill.red { background: linear-gradient(to right, #f43f5e, #fb7185); }
+
+        /* Modals */
+        .modal-overlay {
+            background: rgba(2, 6, 23, 0.85);
+            backdrop-filter: blur(8px);
+        }
+
+        .modal {
+            background: var(--bg-sidebar);
+            border: 1px solid var(--border-glass);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            padding: 40px;
+            width: 100%;
+            max-width: 650px;
+        }
+
+        .form-control {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-glass);
+            color: #fff;
+            padding: 14px 18px;
+            border-radius: 12px;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            background: rgba(255,255,255,0.07);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px var(--primary-glow);
+            outline: none;
+        }
+
+        /* Action Buttons icon-only */
+        .btn-icon {
+            background: rgba(255,255,255,0.05);
+            color: var(--text-dim);
+            border: 1px solid var(--border-glass);
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .btn-icon:hover {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            transform: scale(1.1);
+        }
 
         /* Avatar */
         .avatar {
@@ -581,13 +608,14 @@
     </style>
 </head>
 <body>
+    <div class="mesh-bg"></div>
     <!-- Sidebar -->
     <nav class="sidebar">
         <div class="logo">
             <div class="logo-icon">
-                <i class="fas fa-heartbeat"></i>
+                <i class="fas fa-shield-heart"></i>
             </div>
-            <span class="logo-text">SportCare</span>
+            <div class="logo-text">SportAid</div>
         </div>
 
         <div class="nav-section">
@@ -632,8 +660,10 @@
         <!-- Dashboard Section -->
         <section id="dashboard" class="section active">
             <div class="header">
-                <h1>Dashboard</h1>
-                <p>Overview of your sports training and injury management</p>
+                <div>
+                    <h1 style="background: linear-gradient(to right, #fff, #60a5fa); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Dashboard</h1>
+                    <p>Performance analytics and medical oversight</p>
+                </div>
             </div>
 
             <div class="stats-grid">
@@ -1032,6 +1062,7 @@
                                 <th>Fatigue</th>
                                 <th>Readiness</th>
                                 <th>Status</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -1491,8 +1522,8 @@
                         <input type="number" class="form-control" placeholder="60">
                     </div>
                     <div class="form-group">
-                        <label>Load (AU)</label>
-                        <input type="number" class="form-control" placeholder="Auto-calculated">
+                        <label>Load (AU) <small style="display: block; opacity: 0.7;">(Auto-calculated: RPE &times; Min)</small></label>
+                        <input type="number" class="form-control" placeholder="Auto-calculated" readonly disabled>
                     </div>
                     <div class="form-group">
                         <label>Wellness Score</label>
@@ -1632,7 +1663,7 @@
     </div>
 
     <script>
-        const API_BASE = 'http://localhost:3000/api';
+        const API_BASE = '/api';
 
         // State
         let athletes = [];
@@ -1747,7 +1778,10 @@
 
         function renderTrainingLoadsTable() {
             const tbody = document.querySelector('#loads table tbody');
-            tbody.innerHTML = trainingLoads.map(l => `
+            tbody.innerHTML = trainingLoads.map(l => {
+                const fatigue = l.fatigue_score || (l.load_au > 1000 ? 75 : 45);
+                const readiness = l.readiness_score || (100 - fatigue);
+                return `
                 <tr>
                     <td>
                         <div class="athlete-info">
@@ -1756,17 +1790,22 @@
                         </div>
                     </td>
                     <td>${escapeHtml(l.microcycle)}</td>
-                    <td>-</td>
+                    <td>${l.acwr || '-'}</td>
                     <td>${l.load_au?.toLocaleString() || '-'}</td>
                     <td>
                         <div class="progress-bar">
-                            <div class="progress-fill ${getFatigueColor(l.fatigue_score)}" style="width: ${l.fatigue_score || 50}%"></div>
+                            <div class="progress-fill ${getFatigueColor(fatigue)}" style="width: ${fatigue}%"></div>
                         </div>
                     </td>
-                    <td>${l.readiness_score || '-'}%</td>
+                    <td>${readiness}%</td>
                     <td><span class="badge badge-${getStatusBadge(l.status)}">${formatLoadStatus(l.status)}</span></td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn-icon" onclick="deleteTrainingLoad('${l.id}')" title="Delete"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </td>
                 </tr>
-            `).join('');
+            `}).join('');
         }
 
         function renderInjuriesTable() {
@@ -1788,7 +1827,7 @@
                     <td>
                         <div class="action-buttons">
                             <button class="btn-icon" onclick="editInjury('${i.id}')" title="Edit"><i class="fas fa-edit"></i></button>
-                            <button class="btn-icon" onclick="viewInjuryDetails('${i.id}')" title="View"><i class="fas fa-file-medical"></i></button>
+                            <button class="btn-icon" onclick="deleteInjury('${i.id}')" title="Delete"><i class="fas fa-trash"></i></button>
                         </div>
                     </td>
                 </tr>
@@ -1813,12 +1852,11 @@
                             <div class="progress-fill ${getWellnessColor(r.wellness_score)}" style="width: ${(r.wellness_score / 10) * 100}%"></div>
                         </div>
                     </td>
-                    <td>${r.sleep_quality || '-'}/10</td>
-                    <td><span class="badge badge-${getRecoveryStatusBadge(r.status)}">${capitalize(r.status)}</span></td>
+                    <td>${(r.sleep_quality !== undefined && r.sleep_quality !== null) ? r.sleep_quality : '-'}/10</td>
+                    <td><span class="badge badge-green">${r.status || 'Complete'}</span></td>
                     <td>
                         <div class="action-buttons">
-                            <button class="btn-icon" onclick="editRecovery('${r.id}')" title="Edit"><i class="fas fa-edit"></i></button>
-                            <button class="btn-icon" onclick="viewRecoveryDetails('${r.id}')" title="View"><i class="fas fa-chart-line"></i></button>
+                            <button class="btn-icon" onclick="deleteRecovery('${r.id}')" title="Delete"><i class="fas fa-trash"></i></button>
                         </div>
                     </td>
                 </tr>
@@ -2097,16 +2135,25 @@
 
         async function submitLoadForm() {
             const modal = document.getElementById('loadModal');
+            const selects = modal.querySelectorAll('select');
+            const inputs = modal.querySelectorAll('input');
+            
+            const rpe = parseInt(inputs[0].value) || 0;
+            const duration = parseInt(inputs[1].value) || 0;
+            const load_au = rpe * duration;
+            
             const data = {
-                athlete_id: modal.querySelector('select').value,
-                microcycle: modal.querySelectorAll('select')[1].value,
-                session_rpe: parseInt(modal.querySelector('[placeholder="1-10"]').value) || null,
-                duration: parseInt(modal.querySelector('[placeholder="60"]').value) || null,
-                wellness_score: parseInt(modal.querySelectorAll('[placeholder="1-10"]')[1].value) || null
+                athlete_id: selects[0].value,
+                microcycle: selects[1].value,
+                session_rpe: rpe,
+                duration: duration,
+                load_au: load_au,
+                wellness_score: parseInt(inputs[2].value) || 0,
+                status: load_au > 1000 ? 'high' : 'optimal'
             };
 
-            if (!data.athlete_id) {
-                showNotification('Please select an athlete', 'error');
+            if (!data.athlete_id || !rpe || !duration) {
+                showNotification('Please fill in RPE and Duration', 'error');
                 return;
             }
 
@@ -2135,18 +2182,20 @@
 
         async function submitInjuryForm() {
             const modal = document.getElementById('injuryModal');
+            const selects = modal.querySelectorAll('select');
+            const inputs = modal.querySelectorAll('input');
+            
             const data = {
-                athlete_id: modal.querySelector('select').value,
-                body_part: modal.querySelector('[placeholder="Select body part"]').value,
-                injury_type: modal.querySelector('[placeholder="e.g., Sprain, Strain, Fracture"]').value,
-                severity: modal.querySelectorAll('select')[1].value,
-                date_reported: modal.querySelector('[type="date"]:first-of-type').value,
-                date_injured: modal.querySelector('[type="date"]:first-of-type').value,
-                expected_return: modal.querySelector('[type="date"]:last-of-type').value,
+                athlete_id: selects[0].value,
+                body_part: selects[1].value,
+                injury_type: inputs[0].value,
+                severity: selects[2].value,
+                date_reported: inputs[1].value,
+                expected_return: inputs[2].value,
                 notes: modal.querySelector('textarea').value
             };
 
-            if (!data.athlete_id || !data.body_part || !data.injury_type) {
+            if (!data.athlete_id || !data.body_part || !data.injury_type || !data.date_reported) {
                 showNotification('Please fill in required fields', 'error');
                 return;
             }
@@ -2160,25 +2209,27 @@
             if (!injury) return;
 
             const modal = document.getElementById('injuryModal');
-            modal.querySelector('select').value = injury.athlete_id;
-            modal.querySelector('[placeholder="Select body part"]').value = injury.body_part;
-            modal.querySelector('[placeholder="e.g., Sprain, Strain, Fracture"]').value = injury.injury_type;
-            modal.querySelectorAll('select')[1].value = injury.severity;
-            modal.querySelector('[type="date"]:first-of-type').value = injury.date_reported;
-            modal.querySelector('[type="date"]:last-of-type').value = injury.expected_return;
+            const selects = modal.querySelectorAll('select');
+            const inputs = modal.querySelectorAll('input');
+
+            selects[0].value = injury.athlete_id;
+            selects[1].value = injury.body_part;
+            inputs[0].value = injury.injury_type;
+            selects[2].value = injury.severity;
+            inputs[1].value = injury.date_reported;
+            inputs[2].value = injury.expected_return || '';
             modal.querySelector('textarea').value = injury.notes || '';
 
             const saveBtn = modal.querySelector('.btn-primary');
             saveBtn.textContent = 'Update Injury';
             saveBtn.onclick = async () => {
                 const data = {
-                    athlete_id: modal.querySelector('select').value,
-                    body_part: modal.querySelector('[placeholder="Select body part"]').value,
-                    injury_type: modal.querySelector('[placeholder="e.g., Sprain, Strain, Fracture"]').value,
-                    severity: modal.querySelectorAll('select')[1].value,
-                    date_reported: modal.querySelector('[type="date"]:first-of-type').value,
-                    expected_return: modal.querySelector('[type="date"]:last-of-type').value,
-                    status: injury.status,
+                    athlete_id: selects[0].value,
+                    body_part: selects[1].value,
+                    injury_type: inputs[0].value,
+                    severity: selects[2].value,
+                    date_reported: inputs[1].value,
+                    expected_return: inputs[2].value,
                     notes: modal.querySelector('textarea').value
                 };
                 await fetch(`${API_BASE}/injuries/${id}`, {
@@ -2191,13 +2242,40 @@
                 saveBtn.textContent = 'Report Injury';
                 saveBtn.onclick = () => submitInjuryForm();
             };
-
             openModal('injuryModal');
         }
 
-        function viewInjuryDetails(id) {
-            const injury = injuries.find(i => i.id === id);
-            alert(`Injury Details:\n\nAthlete: ${injury.first_name} ${injury.last_name}\nType: ${injury.injury_type}\nBody Part: ${injury.body_part}\nSeverity: ${injury.severity}\nReported: ${injury.date_reported}\nExpected Return: ${injury.expected_return}\nStatus: ${injury.status}\n\nNotes: ${injury.notes || 'No notes'}`);
+        async function deleteInjury(id) {
+            if (!confirm('Remove this injury? This will set athlete back to Active.')) return;
+            try {
+                await fetch(`${API_BASE}/injuries/${id}`, { method: 'DELETE' });
+                await fetchAllData();
+                showNotification('Injury record removed', 'success');
+            } catch (error) {
+                showNotification('Failed to delete injury', 'error');
+            }
+        }
+
+        async function deleteTrainingLoad(id) {
+            if (!confirm('Are you sure you want to delete this load entry?')) return;
+            try {
+                await fetch(`${API_BASE}/training-loads/${id}`, { method: 'DELETE' });
+                await fetchAllData();
+                showNotification('Load entry deleted', 'success');
+            } catch (error) {
+                showNotification('Failed to delete load', 'error');
+            }
+        }
+
+        async function deleteRecovery(id) {
+            if (!confirm('Are you sure?')) return;
+            try {
+                await fetch(`${API_BASE}/recovery/${id}`, { method: 'DELETE' });
+                await fetchAllData();
+                showNotification('Recovery record deleted', 'success');
+            } catch (error) {
+                showNotification('Failed to delete recovery', 'error');
+            }
         }
 
         // Recovery
@@ -2221,17 +2299,20 @@
 
         async function submitRecoveryForm() {
             const modal = document.getElementById('recoveryModal');
+            const selects = modal.querySelectorAll('select');
+            const inputs = modal.querySelectorAll('input');
+
             const data = {
-                athlete_id: modal.querySelector('select').value,
-                recovery_type: modal.querySelector('[placeholder="Select type"]').value,
-                recovery_date: modal.querySelector('[type="date"]').value,
-                duration: parseInt(modal.querySelector('[placeholder="30"]').value) || null,
-                wellness_score: parseInt(modal.querySelector('[placeholder="Wellness Score (1-10)"]')?.value) || parseInt(modal.querySelectorAll('[type="number"]')[1]?.value) || null,
-                sleep_quality: parseFloat(modal.querySelector('[placeholder="Sleep Quality (1-10)"]')?.value) || parseFloat(modal.querySelectorAll('[type="number"]')[2]?.value) || null,
+                athlete_id: selects[0].value,
+                recovery_type: selects[1].value,
+                recovery_date: inputs[0].value,
+                duration: parseInt(inputs[1].value) || 0,
+                wellness_score: parseInt(inputs[2].value) || 0,
+                sleep_quality: parseFloat(inputs[3].value) || 0,
                 notes: modal.querySelector('textarea').value
             };
 
-            if (!data.athlete_id || !data.recovery_type) {
+            if (!data.athlete_id || !data.recovery_type || !data.recovery_date) {
                 showNotification('Please fill in required fields', 'error');
                 return;
             }
@@ -2333,9 +2414,10 @@
         }
 
         function getSeverityBadge(severity) {
-            if (severity === 'Grade I') return 'green';
-            if (severity === 'Grade II') return 'yellow';
-            if (severity === 'Grade III') return 'red';
+            if (!severity) return 'gray';
+            if (severity.includes('Grade I')) return 'green';
+            if (severity.includes('Grade II')) return 'yellow';
+            if (severity.includes('Grade III')) return 'red';
             return 'gray';
         }
 

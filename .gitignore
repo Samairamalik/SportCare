@@ -1,4 +1,13 @@
 node_modules
-sports.db
-package-lock.json
+*.db
+target/
 .DS_Store
+.vscode/
+.mvn/
+mvnw
+mvnw.cmd
+*.class
+*.jar
+*.war
+*.ear
+*.log

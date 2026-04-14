@@ -13,7 +13,7 @@ INSERT INTO sessions (id, name, athlete_id, session_type, session_date, session_
 ('SES002', 'Endurance Run', 'ATH002', 'Cardio', '2026-04-13', '10:30', 45, 'in_progress', '5K steady state'),
 ('SES003', 'Technique Drill', 'ATH003', 'Skills', '2026-04-13', '14:00', 90, 'scheduled', 'Serve practice'),
 ('SES004', 'Pool Training', 'ATH004', 'Swimming', '2026-04-14', '07:00', 75, 'scheduled', 'Sprint intervals'),
-('SES005', 'Recovery Session', 'ATH005', 'Recovery', '2026-04-14', '11:00', 60, 'scheduled', 'Light stretching'),
+('SES005', 'Recovery Session', 'ATH002', 'Recovery', '2026-04-14', '11:00', 60, 'scheduled', 'Light stretching'),
 ('SES006', 'Vault Practice', 'ATH006', 'Skills', '2026-04-14', '15:00', 90, 'scheduled', NULL);
 
 -- Sample Training Loads

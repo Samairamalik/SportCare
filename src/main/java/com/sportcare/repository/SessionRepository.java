@@ -1,9 +1,10 @@
 package com.sportcare.repository;
 
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public class SessionRepository {
@@ -11,7 +12,7 @@ public class SessionRepository {
     public SessionRepository(JdbcTemplate jdbc) { this.jdbc = jdbc; }
 
     public List<Map<String, Object>> findAll() {
-        return jdbc.queryForList("SELECT s.*, a.first_name, a.last_name FROM sessions s JOIN athletes a ON s.athlete_id = a.id ORDER BY s.session_date DESC, s.session_time DESC");
+        return jdbc.queryForList("SELECT s.*, a.first_name, a.last_name, a.sport FROM sessions s JOIN athletes a ON s.athlete_id = a.id ORDER BY s.session_date DESC, s.session_time DESC");
     }
 
     public void save(Map<String, Object> session) {

@@ -15,9 +15,9 @@ public class RecoveryRepository {
     }
 
     public void save(Map<String, Object> rec) {
-        jdbc.update("INSERT INTO recovery (id, athlete_id, recovery_type, recovery_date, duration, wellness_score, sleep_quality, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+        jdbc.update("INSERT INTO recovery (id, athlete_id, recovery_type, recovery_date, duration, wellness_score, sleep_quality, status, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
             rec.get("id"), rec.get("athlete_id"), rec.get("recovery_type"), rec.get("recovery_date"),
-            rec.get("duration"), rec.get("wellness_score"), rec.get("sleep_quality"), rec.get("notes"));
+            rec.get("duration"), rec.get("wellness_score"), rec.get("sleep_quality"), rec.get("status"), rec.get("notes"));
     }
 
     public void delete(String id) {

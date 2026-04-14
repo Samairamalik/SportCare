@@ -87,7 +87,23 @@ public class SportController {
     @GetMapping("/recovery") public List<Map<String, Object>> getRecoveries() { return recoveries.findAll(); }
     @PostMapping("/recovery") public Map<String, Object> addRecovery(@RequestBody Map<String, Object> r) {
         if (!r.containsKey("id")) r.put("id", "REC" + System.currentTimeMillis() % 1000000);
+        if (!r.containsKey("status")) r.put("status", "scheduled");
         recoveries.save(r);
+
+        // A recovery entry should also be visible as a scheduled session.
+        if (r.get("athlete_id") != null && r.get("recovery_date") != null) {
+            Map<String, Object> s = new HashMap<>();
+            s.put("id", "SES" + System.nanoTime() % 1000000);
+            s.put("name", "Recovery Session");
+            s.put("athlete_id", r.get("athlete_id"));
+            s.put("session_type", "Recovery");
+            s.put("session_date", r.get("recovery_date"));
+            s.put("session_time", null);
+            s.put("duration", r.get("duration"));
+            s.put("notes", r.get("notes"));
+            sessions.save(s);
+        }
+
         return recoveries.findAll().stream().filter(m -> m.get("id").equals(r.get("id"))).findFirst().orElse(r);
     }
 
@@ -111,7 +127,7 @@ public class SportController {
             Map<String, Object> athlete = new HashMap<>();
             athlete.put("first_name", s.get("first_name"));
             athlete.put("last_name", s.get("last_name"));
-            athlete.put("sport", "Basketball");
+            athlete.put("sport", s.get("sport"));
             
             act.put("athlete", athlete);
             act.put("activity", "Training session: " + s.get("name"));

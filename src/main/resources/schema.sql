@@ -84,7 +84,7 @@ CREATE TABLE recovery (
     duration INT,
     wellness_score INT,
     sleep_quality DOUBLE,
-    status VARCHAR(50) DEFAULT 'completed',
+    status VARCHAR(50) DEFAULT 'scheduled',
     notes TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
